@@ -1,0 +1,100 @@
+/*  SVG styles */
+.axis {
+  fill: none;
+  stroke: black;
+  stroke-width: 2px;
+  stroke-linecap: round;
+}
+
+.tick_label {
+  fill: black;
+  stroke: none;
+  text-anchor: middle;
+  font-family: Verdana, sans-serif;
+  font-size: 15px;
+}
+
+.y .tick_label {
+  text-anchor: end;
+}
+
+/* dataline style */
+.dataline  {
+  color: gray;
+}
+
+  .dataline text {
+    fill: currentColor;
+    stroke: none;
+    font-weight: bold;
+  }
+
+  .dataline path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3px;
+    stroke-linecap: round;
+  }
+
+  /* colors for each line */
+  .dataline.series_0,
+  #marker-dot-0 {
+    color: #00aa55;
+    fill: #00aa55;
+    stroke: #00aa55;
+  }
+
+  .dataline.series_1,
+  #marker-dot-1 {
+    color: #009fd4;
+    fill: #009fd4;
+    stroke: #009fd4;
+  }
+
+  .dataline.series_2,
+  #marker-dot-2 {
+    color: #b381b3;
+    fill: #b381b3;
+    stroke: #b381b3;
+  }
+
+  .dataline.series_3,
+  #marker-dot-3 {
+    color: #939393;
+    fill: #939393;
+    stroke: #939393;
+  }
+
+  .dataline.series_4,
+  #marker-dot-4 {
+    color: #aa8f00;
+    fill: #aa8f00;
+    stroke: #aa8f00;
+  }
+
+  .dataline.series_5,
+  #marker-dot-5 {
+    color: #d47500;
+    fill: #d47500;
+    stroke: #d47500;
+  }
+
+  .dataline.series_6,
+  #marker-dot-6 {
+    color: #f64747;
+    fill: #f64747;
+    stroke: #f64747;
+  }
+
+/* dataline highlighting */
+.dataline.lowlite {
+  opacity: 0.2;
+}
+
+.dataline.hide {
+  display: none;
+}
+
+path.segment_hilite {
+  stroke-width: 6px;
+}

@@ -9,8 +9,7 @@ export const prefix = '/account';
 
 const saltRounds = 10;
 
-const {accountStore} = require('../data/DataStore');
-
+const {accountStore, userStore, publicStore} = require('../data/DataStore');
 
 /**
  * This route requires a valid JWT token.
@@ -57,6 +56,12 @@ router.post('/login', async function (req, res) {
     name,
     data: userData
   }, process.env.SECRET_KEY, {expiresIn: '30d'});
+
+  let task_queue = userStore.get(`${name}.tasks`);
+  if(task_queue === undefined || task_queue.length == 0) {
+    const key_list = Object.keys(publicStore.get('samples'))
+    userStore.set(`${name}.tasks`, key_list);
+  }
 
   res.send({jwt: token, data: userData, name});
 });

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fizz Studio's Sample Labeling</title>
+    <style type="text/css">
+      header {
+          position: relative;
+          text-align: center;
+      }
+
+      footer {
+          font-size: smaller;
+          margin-top: 2em;
+          text-align: center;
+      }
+
+      body>div>div,
+      header {
+          margin: 0 auto;
+          max-width: 960px;
+          padding: 0 1em;
+          position: relative;
+      }
+
+      fieldset {
+          margin-top: 2rem;
+      }
+
+      fieldset label {
+          display: block;
+          padding-bottom: 0.2rem;
+      }
+
+      fieldset label input {
+          margin-right: 0.5rem;
+      }
+
+      fieldset.series_fieldset {
+          margin-top: 0;
+      }
+
+      fieldset.series_fieldset label {
+          display: inline-block;
+          margin-right: 0.75rem;
+      }
+
+      #label_buttons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 200px;
+      }
+      
+      button {
+          transition-duration: 0.4s;
+          width: 20%;
+          height: 20%;
+      }
+
+      #yes:hover {
+          background-color: green; 
+          color: white;
+      }
+
+      #no:hover {
+          background-color: red; 
+          color: white;
+      }
+    </style>
+    <link rel="stylesheet" href="charts/line_chart/line_chart.css">
+
+  </head>
+  <body>
+    <div id="fullContainer">
+      <header role="banner">
+        <h1>Line Chart Labelling</h1>
+      </header>
+      <main role="main">
+        <section id="chart">
+        </section>
+
+        <section id="controls">
+        </section>
+
+        <section id="label_buttons">
+          <button style="border: 2px solid green; margin-right:5%;" id="yes">Yes</button>
+          <button style="border: 2px solid red; margin-left:5%;" id="no">No</button>
+        </section>
+      </main>
+      <section>
+        <button id="login">Login</button>
+      </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./requests.js" type="module"></script>
+    <script src="charts/line_chart/ui.js" type="module"></script>
+
+  </body>
+</html>

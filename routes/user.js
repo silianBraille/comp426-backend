@@ -8,7 +8,7 @@ import {modifyUserPath} from "../middlewares/modify_user_path";
 export const router = express.Router();
 export const prefix = '/user';
 
-const {userStore} = require('../data/DataStore');
+const {publicStore, userStore} = require('../data/DataStore');
 
 /**
  * Every request needs to be from a logged in user.
@@ -16,7 +16,14 @@ const {userStore} = require('../data/DataStore');
  */
 router.use([authenticateUser, modifyUserPath]);
 
-router.get('/*', parseGet, function (req, res) {
+router.get('/tasks', parseGet, function (req, res) {
+  const result = req.handleGet(userStore).shift();
+  if (typeof result !== 'undefined') {
+    res.send({result})
+  }
+});
+
+router.get('/labels/*', parseGet, function (req, res) {
   const result = req.handleGet(userStore);
   if (typeof result !== 'undefined') {
     res.send({result})

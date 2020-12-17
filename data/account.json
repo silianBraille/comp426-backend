@@ -1,2 +1,7 @@
 {
+  "users": {
+    "gtrogdon": {
+      "passwordHash": "$2b$10$sWa65X1WZF1Xn8Zd/dLgs.kNdMErWc5hyh2D1Un4lmhmTpsuS1cvi"
+    }
+  }
 }

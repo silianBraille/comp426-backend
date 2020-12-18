@@ -50,22 +50,27 @@ export let dataset = {};
 /* clear the data */
 publicStore.clear();
 
-fs.createReadStream('data/in/line_charts/example.csv')
-  .pipe(csv())
-  .on('data', (row) => {
-    /* serialize row sample */
-    const id_num = crypto.randomBytes(20).toString('hex');
-    dataset[id_num] = [];
-    Object.keys(row).forEach((key) => {
-      if(key != "Sample") {
-        dataset[id_num].push(row[key]);
-      }
+/* Process csvs located in data/in/line_charts */
+fs.readdirSync('data/in/line_charts/').forEach(file => {
+  let bad_key = fs.readFileSync(`data/in/line_charts/${file}`, 'utf-8').split(',')[0];
+  fs.createReadStream(`data/in/line_charts/${file}`)
+    .pipe(csv())
+    .on('data', (row) => {
+      /* serialize row sample */
+      const id_num = crypto.randomBytes(20).toString('hex');
+      dataset[id_num] = [];
+      Object.keys(row).forEach((key) => {
+        if(key != bad_key) {
+          dataset[id_num].push(row[key]);
+        }
+      });
+    })
+    .on('end', () => {
+      publicStore.set("samples", dataset);
     });
-  })
-  .on('end', () => {
-    publicStore.set("samples", dataset);
-    console.log('CSV file successfully processed');
-  });
+});
+
+console.log('CSV files successfully processed');
 
 /* Reset user tasks in case sample space has changed */
 let users= Object.keys(userStore.clone());

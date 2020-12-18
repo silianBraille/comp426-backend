@@ -6,6 +6,7 @@ let dataset = {};
 let username = "";
 let password = "";
 let current_task = "";
+let jwt_token="";
 const chart_container = document.querySelector(`section#chart`);
 
 window.onload = async function init() {
@@ -83,42 +84,48 @@ function show_selected_datalines (event) {
 }
 
 async function send_yes() {
-  if(document.cookie.slice(0,3)=="jwt") {
-    await postPrivateData(location.hostname, location.port, `user/labels/${current_task}`, 1, document.cookie.slice(4));
-    current_task = (await getPrivateData(location.hostname, location.port, "user/tasks", 1, document.cookie.slice(4)))["data"]["result"];
+  await postPrivateData(location.hostname, location.port, `user/labels/${current_task}`, 1, jwt_token);
+  current_task = (await getPrivateData(location.hostname, location.port, "user/tasks", 1, jwt_token))["data"]["result"];
 
-    await getData(location.hostname, location.port, `public/samples/${current_task}`, 1).then((val) => {
-      dataset = {current_task: val["data"]["result"]};
-    });
+  await getData(location.hostname, location.port, `public/samples/${current_task}`, 1).then((val) => {
+    dataset = {current_task: val["data"]["result"]};
+  });
 
-    chart_container.innerHTML = ``;
+  chart_container.innerHTML = ``;
 
-    chart = new LineChart(dataset, chart_container, 1800, 300);
-  }
+  chart = new LineChart(dataset, chart_container, 1800, 300);
 }
 
 async function send_no() {
-  if(document.cookie.slice(0,3)=="jwt") {
-    await postPrivateData(location.hostname, location.port, `user/labels/${current_task}`, 0, document.cookie.slice(4));
-    current_task = (await getPrivateData(location.hostname, location.port, "user/tasks", 1, document.cookie.slice(4)))["data"]["result"];
+  await postPrivateData(location.hostname, location.port, `user/labels/${current_task}`, 0, jwt_token);
+  current_task = (await getPrivateData(location.hostname, location.port, "user/tasks", 1, jwt_token))["data"]["result"];
 
-    await getData(location.hostname, location.port, `public/samples/${current_task}`, 1).then((val) => {
-      dataset = {current_task: val["data"]["result"]};
-    });
+  await getData(location.hostname, location.port, `public/samples/${current_task}`, 1).then((val) => {
+    dataset = {current_task: val["data"]["result"]};
+  });
 
-    chart_container.innerHTML = ``;
+  chart_container.innerHTML = ``;
 
-    chart = new LineChart(dataset, chart_container, 1800, 300);
-  }
+  chart = new LineChart(dataset, chart_container, 1800, 300);
 }
 
 async function login_prompt() {
-  /*jwt saved in document.cookie.slice(4)*/
+  /*jwt saved in document.cookie*/
   username = prompt("Enter username");
   password = prompt("Enter password");
-  await loginAccount(location.hostname, location.port, username, password);
-  current_task = (await getPrivateData(location.hostname, location.port, "user/tasks", 1, document.cookie.slice(4)))["data"]["result"];
 
+  /* login */
+  await loginAccount(location.hostname, location.port, username, password);
+
+  jwt_token = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('jwt='))
+    .split('=')[1];
+
+  /* request a serial number */
+  current_task = (await getPrivateData(location.hostname, location.port, "user/tasks", 1, jwt_token))["data"]["result"];
+
+  /* fetch the proper dataset based on serial number */
   await getData(location.hostname, location.port, `public/samples/${current_task}`, 1).then((val) => {
     dataset = {current_task: val["data"]["result"]};
   });
